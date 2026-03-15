@@ -1,30 +1,30 @@
 import { View,Text,TouchableOpacity,StyleSheet } from "react-native";
 import {Safeareaview } from "react-native-safe-area-context";
 import { TextInput } from "react-native-paper";
-import { transparent } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import FocusTime from "./component/FocusTime";
 import { useState } from "react";
 export default function App(){
-    
+  const [switchScreen,setSwitchScreen ] = useState(false);
+  const [ task ,setTask ] = useState("");
+  const [ tasks,setTasks ] = useState([]);
+  const [ selectedTask,setSelectedTask]=useState("");
+
+  const changeScreen = () => {
+    setSwitchScreen(!switchScreen);
+  }
+  const addTask = () => {
+    const trimmed = task.trim();
+
+    if (trimmed.length > 0){
+      setTasks(prev => [...prev,trimmed]);
+      setTask("")
+      setSelectedTask(trimmed);
+    }
+  }
+    if(switchScreen){
+      return <FocusTime focusTask={selectedTask} onBack={changeScreen}/>
+    }
       
-      
-  
-  const [addTask,setaddTask]=useState(false);
-  const [task,setTask] = useState("");
-  const handleBack = () =>{
-    setaddTask(prev =>! prev);
-  }
-  const handleTextChange= () =>{
-    setTask(task);
-    setTask("")
-  }
-  if(addTask){
-    return(
-      <FocusTime/>
-    )
-  }
-  function handlepress(){
-    console.log('add button pressed');}
     return(
       <Safeareaview style={Styles.container}>
         <view style={styles.inputcontainer}>
@@ -33,17 +33,24 @@ export default function App(){
           style={styles.inputText}
           mode={'outlined'}
           label = "Focus"
-          Style = {styles.InputText}
+          Style = {Styles.InputText}
           value = {task}
-          onChangeText = {handleTextChange}
+          onChangeText = {(text)=> setTask(text)}
           />
-          <TouchableOpacity style={styles.fabButton} onPress={()=>{}}>
+          <TouchableOpacity style={styles.fabButton} onPress={()=>{
+            addTask();
+            changeScreen();
+          }}>
 
             <Text style={styles.fabText}>+</Text>
 
           </TouchableOpacity>
+          </view>
           <View style={styles.focusedTasks}>
             <Text style={styles.focusTitle}>things we have focused on:</Text>
+            {tasks.map((task,index) =>( 
+              <Text key={index} style={styles.taskText}>{task}</Text>
+            ))}
             <View style={{padding:20}}>
 
               <Text style={{fontSize:18,color:'white',fontWeight:'semi-bold'}}>1,learn js basics</Text>
@@ -59,8 +66,9 @@ export default function App(){
         },
         inputcontainer:{
           flexDirection:'row',
-          paddding:20,
+          paddding:20, 
         },
+
         InputText:{
           flex:1,
         },
@@ -89,5 +97,12 @@ export default function App(){
           fontSize:26,
           marginLeft:10,
           color:white,
+        },
+        taskText:{
+            fontWeight:'semi-bold',
+            fontSize:18,
+            color:'white',
+          padding:10,
+            
         }
       })
