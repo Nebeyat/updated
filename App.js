@@ -1,5 +1,5 @@
 import { View,Text,TouchableOpacity,StyleSheet } from "react-native";
-import {Safeareaview } from "react-native-safe-area-context";
+import {SafeAreaView,SafeAreaProvider } from "react-native-safe-area-context";
 import { TextInput } from "react-native-paper";
 import FocusTime from "./component/FocusTime";
 import { useState } from "react";
@@ -26,7 +26,7 @@ export default function App(){
     }
       
     return(
-      <Safeareaview style={Styles.container}>
+      <SafeAreaView style={Styles.container}>
         <view style={styles.inputcontainer}>
           <TextInput
           placeholder='what woulde you like to focus...'
@@ -57,8 +57,9 @@ export default function App(){
               <Text style={{fontSize:18,color:'white',fontWeight:'semi-bold'}}>1,learn react native</Text>
             </View>
           </View>
-        </view>
-      </Safeareaview>);}
+        
+      </SafeAreaView>  );
+      }
       const style=StyleSheet.create({
         container:{
           flex:1,
@@ -93,7 +94,7 @@ export default function App(){
         },
 
         focusTitle:{
-          fontWeight:'bold',
+           fontWeight:'bold',
           fontSize:26,
           marginLeft:10,
           color:white,
