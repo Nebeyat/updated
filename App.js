@@ -28,6 +28,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <SystemBars style="dark"/>
       <View style={styles.inputcontainer}>
         <TextInput
           placeholder="what woulde you like to focus..."

@@ -2,6 +2,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { usestate, useEffect } from "react";
 import Toast from "react-native-toast-message";
+import { SystemBars } from "react-native-edge-to-edge";
+
 
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = usestate(false);
@@ -42,6 +44,7 @@ export default function FocusTime({ focusTask, onBack }) {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <SystemBars style="light"/>
       <Text style={styles.timerText}>
         {selectedTime ? timeFromat(selectedTime) : "00:00"}
       </Text>

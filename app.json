@@ -22,9 +22,8 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "package": "com.anonymous.exe"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    
+    
     }
   }
 }
