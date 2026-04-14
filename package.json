@@ -14,7 +14,7 @@
     "react-native": "0.81.5",
     "react-native-edge-to-edge": "^1.8.1",
     "react-native-paper": "^5.15.0",
-    "react-native-safe-area-context": "~5.6.0",
+    "react-native-safe-area-context": "^5.6.2",
     "react-native-toast-message": "^2.3.3"
   },
   "private": true

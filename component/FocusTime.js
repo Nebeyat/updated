@@ -1,14 +1,14 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { usestate, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
 import { SystemBars } from "react-native-edge-to-edge";
 
 
 export default function FocusTime({ focusTask, onBack }) {
-  const [isRunning, setIsRunning] = usestate(false);
+  const [isRunning, setIsRunning] = useState(false);
   const times = [10, 900, 1200]; //10,15,20 minutes in seconds
-  const [selectedTime, setSelectedTime] = usestate();
+  const [selectedTime, setSelectedTime] = useState();
 
   const timeFromat = (times) => {
     const minutes = Math.floor(times / 60);
@@ -55,7 +55,7 @@ export default function FocusTime({ focusTask, onBack }) {
           height: 10,
           width: "100%",
           backgroundColor: "#252250",
-          mariginTop: 30,
+          marginTop: 30,
           marginBottom: 20,
         }}
       />
@@ -67,7 +67,7 @@ export default function FocusTime({ focusTask, onBack }) {
             style={styles.timeOptionsButton}
             onPress={() => setSelectedTime(time)}
           >
-            <Text styles={styles.timeOptionsText}>timeFromat(time)</Text>
+            <Text styles={styles.timeOptionsText}>timeFromat{time}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -77,7 +77,7 @@ export default function FocusTime({ focusTask, onBack }) {
           setIsRunning(!isRunning);
         }}
       >
-        <Text style={{ color: "white" }}>{isRunning ? "stop" : "start"}</Text>
+        <Text style={{ color: "white" }}> {isRunning ? "stop" : "start"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
