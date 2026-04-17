@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert,ImageBackground,} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from  "react";
 import Toast from "react-native-toast-message";
 import { SystemBars } from "react-native-edge-to-edge";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 export default function FocusTime({ focusTask, onBack }) {
@@ -43,7 +44,12 @@ export default function FocusTime({ focusTask, onBack }) {
     Alert.alert("you have focus on ${focusTask}");
   };
   return (
+    <ImageBackground style={styles.imageBackground} resizeMode='cover' source={require('../assets/image.jpg')}>
     <SafeAreaView style={styles.container}>
+        <TouchableOpacity style={styles.backButton} onPress={onBack}>
+        <Ionicons name="chevron-back" size={24} color="white" />
+        <Text style={{ color: "white" }}>Back</Text>
+      </TouchableOpacity>
       <SystemBars style="light"/>
       <Text style={styles.timerText}>
         {selectedTime ? timeFromat(selectedTime) : "00:00"}
@@ -78,20 +84,22 @@ export default function FocusTime({ focusTask, onBack }) {
         }}
       >
         <Text style={{ color: "white" }}> {isRunning ? "stop" : "start"}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.backButton} onPress={onBack}>
-        <Text style={{ color: "white" }}>Back</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>          
       <Toast />
     </SafeAreaView>
+  </ImageBackground>
+
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#252250",
+    backgroundColor: 'transparent',
     alignItems: "center",
+  },
+  imageBackground:{
+    flex:1,
+    alignItems:"center",
   },
   timerText: {
     fontWeight: "bold",
@@ -143,13 +151,14 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   backButton: {
-    hight: 50,
-    width: 100,
+    flexDirectione:"row",
+    hight: 40,
+    width: 80,
     borderRadius: 25,
     backgroundColor: "transparent",
-    borderWidth: 2,
-    borderColor: "white",
     justifyContent: "center",
     alignItems: "center",
+    alignSelf:"flex-start",
+    marginLeft:10,
   },
 });

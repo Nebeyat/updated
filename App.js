@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet,ImageBackground,ScrollView, Pressable } from "react-native";
 import { SystemBars } from 'react-native-edge-to-edge';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native-paper";
@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function App() {
   const [switchScreen, setSwitchScreen] = useState(false);
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(['go to the gym','read a book','learn react native']);
   const [selectedTask, setSelectedTask] = useState("");
 
   const changeScreen = () => {
@@ -36,7 +36,6 @@ export default function App() {
           style={styles.InputText}
           mode={"outlined"}
           label="Focus"
-          Style={styles.InputText}
           value={task}
           onChangeText={(text) => setTask(text)}
         />
@@ -52,23 +51,21 @@ export default function App() {
       </View>
       <View style={styles.focusedTasks}>
         <Text style={styles.focusTitle}>things we have focused on:</Text>
-        {tasks.map((task, index) => (
-          <Text key={index} style={styles.taskText}>
-            {task}
+        <ImageBackground style={styles.taskBackground} source= {require('./assets/image.jpg')}>
+        <ScrollView style={{padding:20}} contentContainerStyle={{gap:10,marginTop:10}}  resizeMode='cover'>
+        
+          {tasks.map((task, index) => (
+            <Pressable  key={index} onPress={() => {
+              addTask()
+              changeScreen()
+            }}>
+          <Text key={index} style={styles.taskText}> {task}
           </Text>
+          </Pressable> 
         ))}
-        <View style={{ padding: 20 }}>
-          <Text
-            style={{ fontSize: 18, color: "white", fontWeight: "semi-bold" }}
-          >
-            1,learn js basics
-          </Text>
-          <Text
-            style={{ fontSize: 18, color: "white", fontWeight: "semi-bold" }}
-          >
-            1,learn react native
-          </Text>
-        </View>
+        </ScrollView>
+        </ImageBackground>
+ 
       </View>
     </SafeAreaView>
   );
@@ -103,7 +100,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   focusedTasks: {
+    backgroundColor: 'transparent',
     marginTop: 20,
+    padding:10,
+    flex:1,
   },
   focusTitle: {
     fontWeight: "bold",
@@ -117,4 +117,13 @@ const styles = StyleSheet.create({
     color: "white",
     padding: 10,
   },
+  taskBackground:{
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center",
+    resizeMode:'cover',
+    overflow:'hidden',
+    borderRadius:20,
+    marginTop:10
+  }
 });
