@@ -1,4 +1,3 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert,ImageBackground,} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from  "react";
 import Toast from "react-native-toast-message";
@@ -8,7 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
-  const times = [10, 900, 1200]; //10,15,20 minutes in seconds
+  const times = [5, 900, 1200]; //10,15,20 minutes in seconds
   const [selectedTime, setSelectedTime] = useState();
 
   const timeFromat = (times) => {
@@ -159,6 +158,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf:"flex-start",
-    marginLeft:10,
+    marginLeft:1,
   },
 });

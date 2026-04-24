@@ -2,8 +2,8 @@ import { View, Text, TouchableOpacity, StyleSheet,ImageBackground,ScrollView, Pr
 import { SystemBars } from 'react-native-edge-to-edge';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native-paper";
-import FocusTime from "./component/FocusTime";
 import { useState } from "react";
+import {router} from "expo-router";
 
 export default function App() {
   const [switchScreen, setSwitchScreen] = useState(false);
@@ -21,6 +21,7 @@ export default function App() {
       setTasks((prev) => [...prev, trimmed]);
       setTask("");
       setSelectedTask(trimmed);
+      router.push({pathname:'/focusTime',params:{focusTask:trimmed}});
     }
   };
   if (switchScreen) {
@@ -51,7 +52,7 @@ export default function App() {
       </View>
       <View style={styles.focusedTasks}>
         <Text style={styles.focusTitle}>things we have focused on:</Text>
-        <ImageBackground style={styles.taskBackground} source= {require('./assets/image.jpg')}>
+        <ImageBackground style={styles.taskBackground} source= {require('../../../assets/image.jpg')}>
         <ScrollView style={{padding:20}} contentContainerStyle={{gap:10,marginTop:10}}  resizeMode='cover'>
         
           {tasks.map((task, index) => (
@@ -127,3 +128,4 @@ const styles = StyleSheet.create({
     marginTop:10
   }
 });
+
