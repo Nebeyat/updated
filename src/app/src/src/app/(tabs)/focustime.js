@@ -1,14 +1,18 @@
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView ,} from "react-native-safe-area-context";
+import{ View,Text,TouchableOpacity,Stylesheet,ImageBackground,ScrollView} from 'react-native';
 import { useState, useEffect } from  "react";
 import Toast from "react-native-toast-message";
 import { SystemBars } from "react-native-edge-to-edge";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { router, useLocalSearchParams } from "expo-router";
+
 
 
 export default function FocusTime({ focusTask, onBack }) {
   const [isRunning, setIsRunning] = useState(false);
   const times = [5, 900, 1200]; //10,15,20 minutes in seconds
   const [selectedTime, setSelectedTime] = useState();
+  const parameters= useLocalSearchParams();
 
   const timeFromat = (times) => {
     const minutes = Math.floor(times / 60);
@@ -20,7 +24,7 @@ export default function FocusTime({ focusTask, onBack }) {
     Toast.show({
       positione: "bottom",
       type: "success",
-      text1: "you have successfully  focus on ${focusTask}",
+      text1: "you have successfully  focus on ${parameters.focusTask}",
     });
   };
   useEffect(() => {
@@ -39,12 +43,11 @@ export default function FocusTime({ focusTask, onBack }) {
     return () => clearInterval(intervalId);
   }, [isRunning, selectedTime]);
 
-  const showSuccess = () => {
-    Alert.alert("you have focus on ${focusTask}");
-  };
+  
   return (
     <ImageBackground style={styles.imageBackground} resizeMode='cover' source={require('../assets/image.jpg')}>
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edge={['top']}>
+      <ScrollView contentContainerStyle={{ flex:1,alignItems:'center',justifyContetnt:'center'}}>
         <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <Ionicons name="chevron-back" size={24} color="white" />
         <Text style={{ color: "white" }}>Back</Text>
@@ -85,8 +88,9 @@ export default function FocusTime({ focusTask, onBack }) {
         <Text style={{ color: "white" }}> {isRunning ? "stop" : "start"}</Text>
       </TouchableOpacity>          
       <Toast />
-    </SafeAreaView>
-  </ImageBackground>
+      </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
 
   );
 }

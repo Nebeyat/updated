@@ -3,13 +3,14 @@ import { SystemBars } from 'react-native-edge-to-edge';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native-paper";
 import { useState } from "react";
-import {router} from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
 
 export default function App() {
   const [switchScreen, setSwitchScreen] = useState(false);
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState(['go to the gym','read a book','learn react native']);
   const [selectedTask, setSelectedTask] = useState("");
+  const params=useLocalSearchParams();
 
   const changeScreen = () => {
     setSwitchScreen(!switchScreen);
@@ -21,7 +22,9 @@ export default function App() {
       setTasks((prev) => [...prev, trimmed]);
       setTask("");
       setSelectedTask(trimmed);
-      router.push({pathname:'/focusTime',params:{focusTask:trimmed}});
+      router.push({
+        pathname:'/focusTime',
+        params:{focusTask:trimmed}});
     }
   };
   if (switchScreen) {
