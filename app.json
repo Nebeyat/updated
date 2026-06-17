@@ -24,7 +24,8 @@
       "package": "com.anonymous.exe"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ]
   }
 }
