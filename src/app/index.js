@@ -4,9 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native-paper";
 import { router } from "expo-router";
 import { useTasks } from '../contexts/taskContexts';
+import { useColors } from '../contexts/colorContext'
 
 export default function App() {
   const { task, setTask, tasks, setTasks, setSelectedTask } = useTasks();
+  const { colors ,statusBarStyle}= useColors();
 
   const addTask = () => {
     const trimmed = task.trim();
@@ -24,9 +26,9 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background,}]}>
       <SystemBars style="dark" />
-      <View style={styles.inputcontainer}>
+      <View style={[styles.inputcontainer ,{backgroundColor: colors.background}]}>
         <TextInput
           placeholder="what would you like to focus..."
           style={styles.InputText}
@@ -35,17 +37,17 @@ export default function App() {
           value={task}
           onChangeText={(text) => setTask(text)}
         />
-        <TouchableOpacity style={styles.fabButton} onPress={addTask}>
+        <TouchableOpacity style={[styles.fabButton,{backgroundColor : colors.background}]} onPress={addTask}>
           <Text style={styles.fabText}>+</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.focusedTasks}>
-        <Text style={styles.focusTitle}>things we have focused on:</Text>
+        <Text style={[styles.focusTitle,{color:colors.textPrimary}]}>things we have focused on:</Text>
         <ImageBackground style={styles.taskBackground} source={require('../../assets/image.jpg')}>
           <ScrollView style={{ padding: 20 }} contentContainerStyle={{ gap: 10, marginTop: 10 }} resizeMode='cover'>
             {tasks.map((t, index) => (
               <Pressable key={index} onPress={() => focusOnExistingTask(t)}>
-                <Text style={styles.taskText}>{t}</Text>
+                <Text key= {index} style={[styles.taskText,{color:colors.textPrimary}]}>-{t}</Text>
               </Pressable>
             ))}
           </ScrollView>
@@ -58,7 +60,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2f0b6849",
+   
   },
   inputcontainer: {
     flexDirection: "row",
