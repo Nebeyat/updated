@@ -17,6 +17,7 @@ export default function OnBoarding(){
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>
         <Onboarding
         controlStatusBar={false}
+        onDone={handleDone}
         pages={[
     {
       backgroundColor: '#fff',

@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
-import { useTasks } from '../contexts/taskContexts';
-import { useColors } from '../contexts/colorContext';
+import { useTasks } from '../../contexts/taskContexts';
+import { useColors } from '../../contexts/colorContext';
 
 export default function FocusTime() {
   const { colors } = useColors();
@@ -13,8 +13,8 @@ export default function FocusTime() {
   const focusTask = selectedTask;
 
   const [isRunning, setIsRunning] = useState(false);
-  const times = [5, 900, 1200]; // 5 sec, 15 min, 20 min
-  const [selectedTime, setSelectedTime] = useState(0); // ✅ Fixed: Initialized with 0 instead of undefined
+  const times = [5, 900, 1200]; 
+  const [selectedTime, setSelectedTime] = useState(0); 
   const parameters = useLocalSearchParams();
 
   const timeFromat = (time) => {
@@ -101,7 +101,7 @@ export default function FocusTime() {
             }
           }}
         >
-          {/* ✅ Fixed typo here: changed colors.textprimary to colors.textPrimary */}
+          
           <Text style={{ color: colors.textPrimary, fontWeight: 'bold' }}> 
             {isRunning ? "STOP" : "START"}
           </Text>

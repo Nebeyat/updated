@@ -1,19 +1,22 @@
-import { Tabs } from "expo-router";
+
+import {Drawer} from 'expo-router/drawer';
 import TaskProvider from "../contexts/taskContexts";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ColorProvider, { useColors } from "../contexts/colorContext"; 
-import { SystemBars } from "react-native-edge-to-edge";
-import OnBoarding from '../components/onBoarding';
 import { useState, useEffect } from 'react';
-import { getItems } from "../utils/storage";
+import { ImageBackground } from 'react-native';
+import Onboarding from 'react-native-onboarding-swiper';
+import { getItems ,setItems } from "../utils/storage";
+import OnBoarding from '../components/onBoarding';
 
-export default function layout() {
-  // Explicitly declared here
-  const [showOnBoarding, setShowOnBoarding] = useState(false);
+export default function RootLayout({children}) {
+const [showOnBoarding, setShowOnBoarding] = useState(false);
 
   const checkOnBoardingStatus = async () => {
     try {
       const onboardingCompleted = await getItems('onboardingcompleted');
+       
+      console.log('onboarding completed status:',onboardingCompleted);
       setShowOnBoarding(onboardingCompleted !== 'true');
     } catch (error) {
       console.error('Error checking onboarding status:', error);
@@ -23,56 +26,39 @@ export default function layout() {
   useEffect(() => {
     checkOnBoardingStatus();
   }, []);
+  const DrawerContent = () => {
+  const { colors, statusBarStyle } = useColors();
+  return (
+    <Drawer
+      screenOptions={{
+        drawerStyle: { backgroundColor: colors.background },
+        headerStyle: { backgroundColor: colors.background },
+        headerTintColor: colors.textPrimary,
+      }}
+    >
+      <Drawer.Screen
+        name='(tabs)'
+        options={{ title: 'Focus Timer' }}
+      />
+    </Drawer>
+  );
+};
+if (showOnBoarding) {
+  return(
+    <OnBoarding onFinish={async () => {
+      await setItems('onboardingcompleted', 'true');
+      setShowOnBoarding(false);
+    }}/>
+  )
+}
+else {return (
+   <ColorProvider>
+   <TaskProvider>
+    <DrawerContent/>
+   </TaskProvider>
+   </ColorProvider>
 
-  const TabLayoutContent = () => {
-    const { colors, statusBarStyle } = useColors();
-  
-    return (
-      <>
-        <SystemBars style={statusBarStyle}/>
-        <Tabs 
-          screenOptions={{
-            tabBarStyle: {
-              backgroundColor: colors.background,
-              borderTopWidth: 0,
-            },
-            tabBarActiveTintColor: colors.primary,
-            tabBarInactiveTintColor: colors.textPrimary,
-          }} 
-        >
-          <Tabs.Screen name="index" options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => <Ionicons name='home-outline' size={24} color={color} />, 
-          }} />
-          <Tabs.Screen name="focustime" options={{ 
-            headerShown: false,
-            tabBarIcon: ({ color }) => <Ionicons name='timer-outline' size={24} color={color} />, 
-          }} />
-          <Tabs.Screen name="setting" options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => <Ionicons name='settings-outline' size={24} color={color} />,
-          }}/>
-        </Tabs>
-      </>
-    );
-  };
 
-  // Strictly evaluated here with exact matching case
-  if (showOnBoarding) {
-    return (
-      <OnBoarding />
-    );
-  } 
-  else if (!showOnBoarding) {
-    return (
-      <ColorProvider>
-        <TaskProvider>
-          <TabLayoutContent />
-        </TaskProvider>
-      </ColorProvider>
-    );
-  } 
-  else {
-    return null;
-  }
+
+  );}
 }
