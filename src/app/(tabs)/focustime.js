@@ -49,10 +49,11 @@ export default function FocusTime() {
   }, [isRunning, selectedTime]);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
+    <View style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
       <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
-        <TouchableOpacity 
-          style={[styles.backButton, { backgroundColor: colors.background }]}
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 20, alignSelf: "flex-start", marginTop: 20,gap:10 }}>
+ <TouchableOpacity 
+          style={[styles.backButton, { backgroundColor: colors.surface }]}
           onPress={() => {
             setIsRunning(false); 
             router.back();
@@ -60,15 +61,32 @@ export default function FocusTime() {
           }}
         >
           <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
-          <Text style={[styles.timerText, { color: colors.textPrimary, fontSize: 16, marginTop: 0 }]}>Back</Text>
         </TouchableOpacity>
+        
+          <Text style={[styles.timerText, { color: colors.textPrimary, fontSize: 16, marginTop: 0 }]}>Focus Session</Text>
+
+        </View>
+        
          
         <Text style={[styles.timerText, { color: colors.textPrimary }]}>
           {timeFromat(selectedTime)}
         </Text>
-        <Text style={[styles.subTitle, { color: colors.textPrimary }]}>focusing on :</Text>
+        <View style={{ 
+      flexDirectione:'row',
+        backgroundColor:colors.surface,
+        alignItems: "center",
+         gap:10,
+         marginTop: 10,
+          padding: 10,
+           borderRadius: 15 ,
+           width:'90%',
+           minHeight:50,
+           marginLeft:10,}}>
+        <Text style={[styles.subTitle, { color: colors.textSecondary }]}>
+          focusing on :{ " "}
+          </Text>
         <Text style={[styles.focusTask, { color: colors.textPrimary }]}>{focusTask || "No task selected"}</Text>
-        
+        </View>
         <View style={{
             height: 10,
             width: "100%",
@@ -82,7 +100,7 @@ export default function FocusTime() {
           {times.map((time, index) => (
             <TouchableOpacity
               key={index}
-              style={[styles.timeOptionsButton, { borderColor: colors.textPrimary }]}
+              style={[styles.timeOptionsButton, { backgroundColor: colors.surface,borderColor:selectedTime === time ? colors.success : 'transparent',borderWidth:2 },]}
               onPress={() => {
                 setIsRunning(false);
                 setSelectedTime(time);
@@ -94,7 +112,8 @@ export default function FocusTime() {
         </View>
 
         <TouchableOpacity
-          style={[styles.startFab, { borderColor: colors.textPrimary, marginTop: 40 }]}
+        disabled={!selectedTime ||!selectedTask}
+          style={[styles.startFab, { borderColor: isRunning ? colors.error : colors.surface }]}
           onPress={() => {
             if (selectedTime > 0) {
               setIsRunning(!isRunning);
@@ -102,13 +121,13 @@ export default function FocusTime() {
           }}
         >
           
-          <Text style={{ color: colors.textPrimary, fontWeight: 'bold' }}> 
+          <Text style={{ minHeight:40,color:isRunning ? colors.onPrimary : colors.textSecondary, fontWeight: 'bold' }}> 
             {isRunning ? "STOP" : "START"}
           </Text>
         </TouchableOpacity>
         <Toast />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -123,13 +142,15 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   subTitle: {
-    fontSize: 12,
-    marginTop: 20,
+    fontSize: 18,
+    fontWeight: "semi-bold",
+    marginLeft: 10,
+
+    
   },
   focusTask: {
-    fontSize: 26,
-    marginTop: 10,
-    fontWeight: "bold",
+    fontSize: 25,
+   fontWeight: "bold",
   },
   timeOptions: {
     flexDirection: "row",
@@ -138,9 +159,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   timeOptionsButton: {
-    height: 80,
+    height: 40,
     width: 80,
-    borderRadius: 40,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,
@@ -149,21 +170,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   startFab: {
-    height: 80,
-    width: 80,
-    borderRadius: 40,
+    height: 50,
+    width: '80%',
+    borderRadius: 10,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
+    mariginTop: 50,
   },
   backButton: {
-    flexDirection: "row",
-    height: 40,
-    paddingHorizontal: 10,
-    borderRadius: 25,
+  
+    height: 30,
+    width: 30,
+    borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "flex-start",
-    marginTop: 10,
+    marginLeft:10,
+  
   },
 });

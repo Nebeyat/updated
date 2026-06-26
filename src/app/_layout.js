@@ -1,4 +1,3 @@
-
 import {Drawer} from 'expo-router/drawer';
 import TaskProvider from "../contexts/taskContexts";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -32,7 +31,8 @@ const [showOnBoarding, setShowOnBoarding] = useState(false);
     <Drawer
       screenOptions={{
         drawerStyle: { backgroundColor: colors.background },
-        headerStyle: { backgroundColor: colors.background },
+        headerStyle: { backgroundColor: colors.background,elevatione:0,borderWidth:0
+         },
         headerTintColor: colors.textPrimary,
       }}
     >
@@ -51,7 +51,7 @@ if (showOnBoarding) {
     }}/>
   )
 }
-else {return (
+return (
    <ColorProvider>
    <TaskProvider>
     <DrawerContent/>
@@ -60,5 +60,5 @@ else {return (
 
 
 
-  );}
+  );
 }

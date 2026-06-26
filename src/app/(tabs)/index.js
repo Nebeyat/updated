@@ -1,14 +1,13 @@
-import { View, Text, TouchableOpacity, StyleSheet,ImageBackground,ScrollView, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet,ImageBackground,ScrollView, Pressable, } from "react-native";
 import { SystemBars } from 'react-native-edge-to-edge';
-import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native-paper";
 import { useState} from "react";
 import {router} from "expo-router";
 import {useTasks } from '../../contexts/taskContexts';
-
+import { useColors } from '../../contexts/colorContext';
 export default function App() {
 
-  
+  const { colors, statusBarStyle } = useColors();
   const {task,setTask,tasks,setSelectedTask }=useTasks();
   const addTask = () => {
     const trimmed = task.trim();
@@ -25,122 +24,126 @@ export default function App() {
   }
  
 
-  return (
-    <View style={[styles.container ,{backgroundColor:colors.background }]}>
-    
-      <SystemBars style={statusBarStyle}/>
-      <View style={[styles.header ,{backgroundColor:colors.background}]}>
-        <Text style={[styles.headerTitle ,{color:colors.textPrimary}]}> Focus</Text>
-        <Text style={[styles.headerSubTitle,{colors:colors.textSecondary}]}>what do you want on ?</Text>
-      </View>
-      <View style={[styles.inputcontainer, {backgroundColor:Colors.background}]}>
-        <TextInput
-          placeholder="what woulde you like to focus..."
-          style={styles.InputText}
-          mode={"outlined"}
-          label="Focus"
-          value={task}
-          onChangeText={(text) => setTask(text)}
-        />
-        <TouchableOpacity
-          style={styles.fabButton}
-          onPress={() => {
-            addTask();
-            changeScreen();
-          }}
-        >
-          <Text style={styles.fabText}>+</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.focusedTasks}>
-        <Text style={styles.focusTitle}>things we have focused on:</Text>
-        <ImageBackground style={styles.taskBackground} source={require('../../../assets/image.jpg')}>
-        <ScrollView style={{padding:20}} contentContainerStyle={{gap:10,marginTop:10}}  resizeMode='cover'>
-        
-          {tasks.map((task, index) => (
-            <Pressable  key={index} onPress={() => {
-              changeScreen();
-              setSelectedTask(text);
-              
-            }}>
-          <Text key={index} style={styles.taskText}> {task}
-          </Text>
-          </Pressable> 
-        ))}
-        </ScrollView>
-        </ImageBackground>
- 
-      </View>
+ return (
+  <View style={[styles.container, {backgroundColor: colors.background}]}>
+    <SystemBars style={statusBarStyle}/>
+    <View style={styles.header}>
+      <Text style={[styles.headerTitle, {color: colors.textPrimary}]}>Focus</Text>
+      <Text style={[styles.headerSubTitle, {color: colors.textSecondary}]}>What do you want to work on?</Text>
     </View>
-  );
-}
 
+    <View style={[styles.inputcontainer, {backgroundColor: colors.background}]}>
+      <TextInput
+        placeholder="What would you like to focus..."
+        placeholderTextColor={colors.textSecondary}
+        style={[styles.InputText, {backgroundColor: colors.surface, color: colors.textPrimary}]}
+        value={task}
+        onChangeText={(text) => setTask(text)}
+      />
+      <TouchableOpacity
+        style={[styles.fabButton, {borderColor: colors.outline}]}
+        onPress={() => addTask()}
+      >
+        <Text style={[styles.fabText, {color: colors.textPrimary}]}>+</Text>
+      </TouchableOpacity>
+    </View>
+
+    <View style={styles.focusedTasks}>
+      <Text style={[styles.focusTitle, {color: colors.textPrimary}]}>
+        Previous Focused Tasks:
+      </Text>
+      <ScrollView contentContainerStyle={{gap: 10, marginTop: 10}}>
+        {tasks.map((task, index) => (
+          <Pressable
+            style={[styles.tasksIist, {backgroundColor: colors.surface}]}
+            key={index}
+            onPress={() => {
+              setSelectedTask(task);
+              router.push({
+                pathname:'/focustime',
+              })
+            }}
+          >
+            <Text style={[styles.taskText,{color: colors.textSecondary}]}>
+              {index + 1}.</Text>
+            <Text style={[styles.taskText, {color: colors.textPrimary}]}>{task}</Text>
+          </Pressable>
+        ))}
+      </ScrollView>
+    </View>
+  </View>
+);
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2f0b6849",
   },
-  header:{
-    padding:20,
+  header: {
+    padding: 20,
+    paddingTop: 40,
   },
-  headerTitle:{
-    fontWeight:'bold',
-    fontSize:30,
-    color:'white,'
+  headerTitle: {
+    fontWeight: 'bold',
+    fontSize: 32,
   },
-  headerSubTitle:{
-    fontSize:18,
+  headerSubTitle: {
+    fontSize: 16,
+    marginTop: 4,
+  },
+  inputcontainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    gap: 10,
+  },
+  InputText: {
+    flex: 1,
+    fontSize: 14,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    height: 50,
+  },
+  fabButton: {
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+  },
+  fabText: {
+    fontSize: 24,
+  },
+  focusedTasks: {
+    flex: 1,
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+  focusTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  taskText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    paddingLeft: 10,
+    color:'white',
+    textDecorationLine: 'line-through',
+    
+  },
+  taskText1:{
+    fontWeight: 'bold',
+    fontSize: 20,
+    paddingLeft: 10,
     color:'white',
 
   },
-  inputcontainer: {
-    flexDirection: "row",
-    paddding: 20,
+  tasksIist: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderRadius: 10,
   },
-
-  InputText: {
-    flex: 1,
-  },
-  fabButton: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
-    borderWidth: 2,
-    borderColor: "white",
-  },
-  fabText: {
-    fontSize: 20,
-    color: "white",
-    marginLeft: 10,
-  },
-  focusedTasks: {
-    backgroundColor: 'transparent',
-    marginTop: 20,
-    padding:10,
-    flex:1,
-  },
-  focusTitle: {
-    fontWeight: "bold",
-    fontSize: 26,
-    marginLeft: 10,
-    color: "white",
-  },
-  taskText: {
-    fontWeight: "semi-bold",
-    fontSize: 18,
-    color: "white",
-    padding: 10,
-  },
-  taskBackground:{
-    flex:1,
-    justifyContent:"center",
-    alignItems:"center",
-    resizeMode:'cover',
-    overflow:'hidden',
-    borderRadius:20,
-    marginTop:10
-  }
 });
