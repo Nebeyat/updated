@@ -60,16 +60,18 @@ export default function FocusTime() {
             setSelectedTime(0); 
           }}
         >
-          <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
+          <Ionicons
+           name="chevron-back" 
+           size={24}
+            color={colors.textPrimary} />
         </TouchableOpacity>
         
-          <Text style={[styles.timerText, { color: colors.textPrimary, fontSize: 16, marginTop: 0 }]}>Focus Session</Text>
+          <Text style={[styles.timerText, { color: colors.textPrimary,
+            fontFamily:'Righteous_400Regular'  }]}>Focus Session</Text>
 
         </View>
-        
-         
-        <Text style={[styles.timerText, { color: colors.textPrimary }]}>
-          {timeFromat(selectedTime)}
+         <Text style={[styles.timerText, { color: colors.textPrimary, fontFamily:'Righteous_400Regular' }]}>
+          {selectedTime ? timeFromat(selectedTime) : "00:00"}
         </Text>
         <View style={{ 
       flexDirectione:'row',
@@ -121,7 +123,7 @@ export default function FocusTime() {
           }}
         >
           
-          <Text style={{ minHeight:40,color:isRunning ? colors.onPrimary : colors.textSecondary, fontWeight: 'bold' }}> 
+          <Text style={{ minHeight:40,color:isRunning ? colors.onPrimary : colors.textSecondary,  fontFamily:'Righteous_400Regular' }}> 
             {isRunning ? "STOP" : "START"}
           </Text>
         </TouchableOpacity>
@@ -137,9 +139,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   timerText: {
-    fontWeight: "bold",
-    fontSize: 60,
+  
+    
     marginTop: 50,
+    color:"white",
+   
   },
   subTitle: {
     fontSize: 18,
@@ -151,6 +155,7 @@ const styles = StyleSheet.create({
   focusTask: {
     fontSize: 25,
    fontWeight: "bold",
+    fontFamily:'Righteous_400Regular'
   },
   timeOptions: {
     flexDirection: "row",
@@ -168,6 +173,8 @@ const styles = StyleSheet.create({
   },
   timeOptionsText: {
     fontSize: 16,
+     fontFamily:'Righteous_400Regular',
+     color:'white',
   },
   startFab: {
     height: 50,
@@ -176,7 +183,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    mariginTop: 50,
+    marginTop: 50,
   },
   backButton: {
   

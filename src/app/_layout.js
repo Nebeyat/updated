@@ -7,8 +7,12 @@ import { ImageBackground } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import { getItems ,setItems } from "../utils/storage";
 import OnBoarding from '../components/onBoarding';
+import { useFonts,Righteous_400Regular } from '@expo-google-fonts/righteous';
 
 export default function RootLayout({children}) {
+  const [fontsLoaded]=useFonts({
+    Righteous_400Regular
+  });
 const [showOnBoarding, setShowOnBoarding] = useState(false);
 
   const checkOnBoardingStatus = async () => {
@@ -38,11 +42,16 @@ const [showOnBoarding, setShowOnBoarding] = useState(false);
     >
       <Drawer.Screen
         name='(tabs)'
-        options={{ title: 'Focus Timer' }}
+        options={{ title: 'Focus Timer',
+          headerTitleStyle:{fontFamily:'righteous_400Regular',fontSize:24},
+         }}
       />
     </Drawer>
   );
 };
+if(!fontsLoaded){
+  return null;
+}
 if (showOnBoarding) {
   return(
     <OnBoarding onFinish={async () => {

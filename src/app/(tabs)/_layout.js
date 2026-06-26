@@ -27,13 +27,21 @@ import { getItems } from "../../utils/storage";
             tabBarInactiveTintColor: colors.textPrimary,
           }} 
         >
-          <Tabs.Screen name="index" options={{
+          <Tabs.Screen 
+          name="index"
+           options={{
             headerShown: false,
-            tabBarIcon: ({ color }) => <Ionicons name='home-outline' size={24} color={color} />, 
-          }} />
-          <Tabs.Screen name="focustime" options={{ 
+            tabBarIcon: ({ color,focused }) => (
+             <Ionicons name={focused ? 'home':'home-outline'} size={24} color={color} />
+          
+      ),  }}/>
+          <Tabs.Screen 
+          name="focustime" 
+          options={{ 
             headerShown: false,
-            tabBarIcon: ({ color }) => <Ionicons name='timer-outline' size={24} color={color} />, 
+            tabBarIcon: ({ color, focused}) => (
+            <Ionicons name={focused ? 'timer':'timer-outline'} size={24} color={color} /> 
+              ), 
           }} />
           <Tabs.Screen name="setting" options={{
             headerShown: false,
